@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genetic Algorithm</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <script async src="https://docs.opencv.org/master/opencv.js"  type="text/javascript"></script>
+</head>
+<body>
+  <div id="header">
+    <h1>Genetic algorithm</h1>
+  </div>
+  <div id="content">
+    <div id="left">
+      <h2 id="nMaxGenerations">Maximum number of generations: 20</h1>
+      <div id="slider-nMaxgenerations">
+          <input type="range" class="sliderClass" id="sliderGENERATIONS" min="1" max="200" value="20" oninput="numberUpdate('Maximum number of generations: ',this.value,'nMaxGenerations')">
+      </div>
+      <h2 id="nIndividualsPopulationPerGen">Individuals in the population per generation: 20</h1>
+      <div id="slider-nindividualsPopulationPerGen">
+          <input type="range" class="sliderClass" id="slidernIndividualsPopulationPerGen" min="1" max="100" value="20" oninput="numberUpdate('Individuals in the population per generation: ',this.value,'nIndividualsPopulationPerGen')">
+      </div>
+      <h2 id="percentSelectedIndividualsEachGeneration">Percentage% of individuals in each generation selected: 20%</h1>
+      <div id="slider-percentSelectedIndividualsEachGeneration">
+          <input type="range" class="sliderClass" id="sliderPercentSelectedIndividualsEachGeneration" min="1" max="100" value="20" oninput="percentageUpdate('Percentage% of individuals in each generation selected: ',this.value,'percentSelectedIndividualsEachGeneration')">
+      </div>
+      <h2 id="percentIndividualsMutate">Percentage% of individuals that will be allowed to mutate: 40%</h1>
+      <div id="slider-percentIndividualsMutate">
+          <input type="range" class="sliderClass" id="sliderPercentIndividualsMutate" min="1" max="100" value="40"oninput="percentageUpdate('Percentage% of individuals that will be allowed to mutate: ',this.value,'percentIndividualsMutate')">
+      </div>
+      <h2 id="percentIndividualsCombination">Percentage% of individuals who will be allowed to combine: 40%</h1>
+      <div id="slider-percentIndividualsCombination">
+          <input type="range" class="sliderClass" id="sliderPercentIndividualsCombination" min="1" max="100" value="40"oninput="percentageUpdate('Percentage% of individuals who will be allowed to combine: ',this.value,'percentIndividualsCombination')">
+      </div>
+      <br>
+      
+    </div>
+
+    
+    <div id="center">
+      <h2>Input image</h2>
+      <div class="inputoutput">
+        <img id="imageSrc" alt="No Image" />
+        <input type="file" id="fileInput" name="file" />
+      </div>
+      
+      <br>
+      <button class="buttonClass"id="buttonStart" onclick="startGeneticAlgorithm()">Start drawing</button> <!--Start button-->
+      
+      <h2 id="resultProcess"></h2>
+      
+
+
+      <div id="square"> <!--Drawing canvas-->
+        <canvas id="canvasSquare"></canvas>
+      </div>
+        
+      <h2 id="msg"></h2>
+
+      <button class="buttonClass"id="buttonStart" onclick="restart()">Reset</button> <!--Restart button-->
+    </div>
+
+    <div id="right">
+      <h2 id="currentGen">Current generation: 0</h2>
+      <h2 id="totalTime">Total time: 0</h2>
+      <h2 id="genTime">Average time between generations: 0</h2>
+      
+      <p id="status">OpenCV.js is loading...</p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
