@@ -43,7 +43,8 @@ function startGeneticAlgorithm() {
     document.getElementById("totalTime").textContent = 'Total time: ' + totalTime + ' seconds';
     var AverageTimeGen = 0;
 
-    //creo que lleva una funcion de iteracion dentro de esta fn 
+    //creo que lleva una funcion de iteracion dentro de esta fn
+    
 
 
 }
