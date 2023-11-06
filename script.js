@@ -44,7 +44,7 @@ function startGeneticAlgorithm() {
     var AverageTimeGen = 0;
 
     //creo que lleva una funcion de iteracion dentro de esta fn
-    
+
 
 
 }
