@@ -6,8 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Genetic Algorithm</title>
   <link rel="stylesheet" href="style.css">
-  
-  <script async src="https://docs.opencv.org/master/opencv.js"  type="text/javascript"></script>
 </head>
 <body>
   <div id="header">
@@ -36,28 +34,24 @@
           <input type="range" class="sliderClass" id="sliderPercentIndividualsCombination" min="1" max="100" value="40"oninput="percentageUpdate('Percentage% of individuals who will be allowed to combine: ',this.value,'percentIndividualsCombination')">
       </div>
       <br>
-      
     </div>
 
-    
     <div id="center">
       <h2>Input image</h2>
       <div class="inputoutput">
         <img id="imageSrc" alt="No Image" />
         <input type="file" id="fileInput" name="file" />
       </div>
-      
+
       <br>
       <button class="buttonClass"id="buttonStart" onclick="startGeneticAlgorithm()">Start drawing</button> <!--Start button-->
-      
-      <h2 id="resultProcess"></h2>
-      
 
+      <h2 id="resultProcess"></h2>
 
       <div id="square"> <!--Drawing canvas-->
         <canvas id="canvasSquare"></canvas>
       </div>
-        
+
       <h2 id="msg"></h2>
 
       <button class="buttonClass"id="buttonStart" onclick="restart()">Reset</button> <!--Restart button-->
@@ -67,10 +61,12 @@
       <h2 id="currentGen">Current generation: 0</h2>
       <h2 id="totalTime">Total time: 0</h2>
       <h2 id="genTime">Average time between generations: 0</h2>
-      
       <p id="status">OpenCV.js is loading...</p>
     </div>
   </div>
+
+  <script src="lineas.js"></script>
   <script src="script.js"></script>
+  <script async src="https://docs.opencv.org/3.4.0/opencv.js" type="text/javascript"></script>
 </body>
 </html>

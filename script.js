@@ -1,13 +1,15 @@
-var OpenCV_module = {
+var Module = {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
     onRuntimeInitialized() {
-      document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+        document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
     }
 };
+
 let image_elem = document.getElementById('imageSrc');
 let input_elem = document.getElementById('fileInput');
 input_elem.addEventListener('change', (e) => {
-      image_elem.src = URL.createObjectURL(e.target.files[0]);
+    image_elem.src = URL.createObjectURL(e.target.files[0]);
+    obtenerLineas(image_elem, console.log);
 }, false);
 
 // Function to get the selected value of a slider
@@ -38,15 +40,11 @@ function startGeneticAlgorithm() {
     var btnStart = document.getElementById("buttonStart");
     btnStart.disabled = true;
     var startTotalTime = new Date();
+    //creo que lleva una funcion de iteracion dentro de esta fn
     var endTotalTime = new Date();
     var totalTime = Math.floor((endTotalTime - startTotalTime) / 1000);
     document.getElementById("totalTime").textContent = 'Total time: ' + totalTime + ' seconds';
     var AverageTimeGen = 0;
-
-    //creo que lleva una funcion de iteracion dentro de esta fn
-
-
-
 }
 
 function restart() {
