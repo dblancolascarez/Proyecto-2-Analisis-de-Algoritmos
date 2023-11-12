@@ -4,18 +4,29 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Genetic Algorithm</title>
+  <title>genetic algorithm</title>
   <link rel="stylesheet" href="style.css">
+  
+  <script async src="https://docs.opencv.org/master/opencv.js"  type="text/javascript"></script>
 </head>
 <body>
+  <div class="bgImg"></div>
   <div id="header">
     <h1>Genetic algorithm</h1>
   </div>
   <div id="content">
     <div id="left">
+      <h2 id="nPoints">Base number of points: 2</h1>
+      <div id="slider-nPoints">
+          <input type="range" class="sliderClass" id="slidernPoints" min="1" max="200" value="2" oninput="numberUpdate('Base number of points: ',this.value,'nPoints')">
+      </div>
+      <h2 id="nMaxPoints">Maximum number of points: 20</h1>
+        <div id="slider-nMaxPoints">
+            <input type="range" class="sliderClass" id="slidernMaxPoints" min="1" max="200" value="20" oninput="numberUpdate('Maximum number of points: ',this.value,'nMaxPoints')">
+        </div>
       <h2 id="nMaxGenerations">Maximum number of generations: 20</h1>
       <div id="slider-nMaxgenerations">
-          <input type="range" class="sliderClass" id="sliderGENERATIONS" min="1" max="200" value="20" oninput="numberUpdate('Maximum number of generations: ',this.value,'nMaxGenerations')">
+          <input type="range" class="sliderClass" id="slidernMaxgenerations" min="1" max="200" value="20" oninput="numberUpdate('Maximum number of generations: ',this.value,'nMaxGenerations')">
       </div>
       <h2 id="nIndividualsPopulationPerGen">Individuals in the population per generation: 20</h1>
       <div id="slider-nindividualsPopulationPerGen">
@@ -34,39 +45,40 @@
           <input type="range" class="sliderClass" id="sliderPercentIndividualsCombination" min="1" max="100" value="40"oninput="percentageUpdate('Percentage% of individuals who will be allowed to combine: ',this.value,'percentIndividualsCombination')">
       </div>
       <br>
+      
     </div>
 
+    
     <div id="center">
+
       <h2>Input image</h2>
       <div class="inputoutput">
         <img id="imageSrc" alt="No Image" />
         <input type="file" id="fileInput" name="file" />
       </div>
-
+      
       <br>
-      <button class="buttonClass"id="buttonStart" onclick="startGeneticAlgorithm()">Start drawing</button> <!--Start button-->
-
+      <button class="buttonClass"id="buttonStart" onclick="startGeneticAlgorithm()">Start algorithm</button> <!--Start button-->
+      
       <h2 id="resultProcess"></h2>
+      
 
-      <div id="square"> <!--Drawing canvas-->
+      <h2 id="currentGeneration"></h2>
+      <div id="square">
         <canvas id="canvasSquare"></canvas>
       </div>
-
+      <!--<h5 id="displayIndividual">Show all individuals in the population every 200 milliseconds</h5>-->
       <h2 id="msg"></h2>
-
-      <button class="buttonClass"id="buttonStart" onclick="restart()">Reset</button> <!--Restart button-->
+      <button class="buttonClass"id="buttonStart" onclick="restart()">Reset configurations</button> <!--Restart button-->
     </div>
 
     <div id="right">
-      <h2 id="currentGen">Current generation: 0</h2>
+      <h2 id="currentGen">Generations: 0</h2>
       <h2 id="totalTime">Total time: 0</h2>
-      <h2 id="genTime">Average time between generations: 0</h2>
-      <p id="status">OpenCV.js is loading...</p>
+      <h2 id="genTime">Average time per generation: 0</h2>
+      
     </div>
   </div>
-
-  <script src="lineas.js"></script>
   <script src="script.js"></script>
-  <script async src="https://docs.opencv.org/3.4.0/opencv.js" type="text/javascript"></script>
 </body>
 </html>

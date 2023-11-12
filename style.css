@@ -2,9 +2,21 @@ html{
     background-color: #1d615d;
     color: #ffffff;
     font-family: cursive;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden; /* To prevent scrolling */          
 }
 body {
     font-family: cursive;
+    margin: 0;
+  padding: 0;
+  background-image: url('bg3.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  width: 1920px;
+    height: 1080px;
+    overflow: hidden; /* To prevent scrolling */  
 }
 #header {
     text-align: center;
@@ -34,7 +46,6 @@ body {
     font-size: 13px;
     text-align: right;
 }
-
   
 #center {
     position: absolute;
@@ -50,6 +61,7 @@ body {
     width: fit-content;
     max-width: 100%;
 }
+
 canvas {
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -60,6 +72,7 @@ canvas {
 #msg{
     text-align: center;
 }
+
 .sliderClass {
     width: 65%;
     -webkit-appearance: none;
@@ -85,6 +98,13 @@ canvas {
     font-family: 'Lato', sans-serif;
 
 }
+
 .buttonClass:hover {
     background-color: #709e79;
 }
+
+.bgImg {
+    background-image: url('bg3.png'); /* Replace 'path_to_your_image.jpg' with your image file's path */
+    background-size: cover; /* Adjusts the size of the background image */
+    /* You can add more background properties here like position, repeat, etc. */
+  }
