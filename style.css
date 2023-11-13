@@ -4,35 +4,35 @@ html{
     font-family: cursive;
     width: 1920px;
     height: 1080px;
-    overflow: hidden; /* To prevent scrolling */          
+    overflow: hidden; /* To prevent scrolling */
 }
 body {
     font-family: cursive;
     margin: 0;
   padding: 0;
-  background-image: url('bg3.png');
+  background-image: url('img/bg3.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   width: 1920px;
     height: 1080px;
-    overflow: hidden; /* To prevent scrolling */  
+    overflow: hidden; /* To prevent scrolling */
 }
 #header {
     text-align: center;
     padding: 10px;
-    
+
     font-size: 22px;
 }
-  
+
 #content {
     display: flex;
 }
-  
+
 #left, #center, #right {
     padding: 10px;
 }
-  
+
 #left{
     flex-basis: 23%;
     font-size: 11px;
@@ -46,7 +46,7 @@ body {
     font-size: 13px;
     text-align: right;
 }
-  
+
 #center {
     position: absolute;
     top: 35%;
@@ -104,7 +104,7 @@ canvas {
 }
 
 .bgImg {
-    background-image: url('bg3.png'); /* Replace 'path_to_your_image.jpg' with your image file's path */
+    background-image: url('img/bg3.png'); /* Replace 'path_to_your_image.jpg' with your image file's path */
     background-size: cover; /* Adjusts the size of the background image */
     /* You can add more background properties here like position, repeat, etc. */
   }

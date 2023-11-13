@@ -9,7 +9,7 @@ input_elem.addEventListener('change', (e) => {
 }, false);
 
 //slider values
-var points = 10; 
+var points = 10;
 var maxPoints = 30;
 var populationPerGeneration = 10;
 var maxGeneration = 10;
@@ -23,76 +23,12 @@ function draw(){
   console.log(mat.ucharPtr(100,100))
   let p1 = new cv.Point(0, 0);
   let p2 = new cv.Point(20, 82);
-  
+
   cv.line(mat, p1, p2, [0, 0, 0, 255], 5);
-  
+
   cv.imshow('canvasSquare', mat);
-  
+
   mat.delete();
-}
-
-function generateIndividual(){
-
-  let arrayPuntos = []
-  for (let i = 0; i < points; i++){
-    const pointX =  Math.floor(Math.random() * (image_elem.width - 0 + 1)) + 0;
-    const pointY =  Math.floor(Math.random() * (image_elem.height - 0 + 1)) + 0;
-    arrayPuntos.push([pointX,pointY])
-  }
-
-  let puntosIndividuo = []
-
-  for (let i = 0; i < arrayPuntos.length; i++) {
-    let p1 = new cv.Point(arrayPuntos[i][0], arrayPuntos[i][1]);
-    puntosIndividuo.push(p1)
-  }
-  
-  return puntosIndividuo;
-}
-
-
-function generatePoblation(){
-  let arrayPoblation = [];
-  for (let i = 0; i < populationPerGeneration; i++){
-    arrayPoblation.push(generateIndividual())
-  }
-  return arrayPoblation;
-}
-
-function fitness(individuo,imagenRecibida){
-  let total = 0;
-  for(let i = 0; i< individuo.length; i++){
-    let punto = individuo[i];
-    const pixel = imagenRecibida.ucharPtr(punto.x,punto.y);
-    if(pixel[0] != 0 || pixel[1] != 0 || pixel[2] != 0){
-      total+=1;
-    }
-
-  }
-  return total;
-
-}
-function ordenarMatrizDescendente(matriz) {
-  matriz.sort((a, b) => b[0] - a[0]);
-  return matriz;
-}
-
-function selection(poblation,objetivo){
-
-  const cantidadSeleccion = (populationPerGeneration * selectedPercentage)/100
-  const seleccionados = [];
-  for(let i = 0; i < poblation.length ; i++){
-      seleccionados.push([fitness(poblation[i],objetivo),poblation[i]]);
-  }
-  const seleccionadosDesordenados = ordenarMatrizDescendente(seleccionados);
-  const seleccionadosFinalesConNumero =  seleccionadosDesordenados.slice(0, cantidadSeleccion);
-  //console.log(seleccionadosFinalesConNumero)
-  console.log("fitness")
-  console.log(seleccionadosFinalesConNumero[0][0])
-  //elimnar el numero del puntaje
-  const seleccionadosFinalesListos = seleccionadosFinalesConNumero.map(([_, texto]) => texto);
-  return seleccionadosFinalesListos;
-
 }
 
 function reproduction(poblation,seleccion){
@@ -102,7 +38,7 @@ function reproduction(poblation,seleccion){
     var numeroAleatorio = Math.floor(Math.random() * 100) + 1;
     if(numeroAleatorio<=combinePercentage){
 
-      const arregloSeleccionadosCopias = seleccion.slice(); 
+      const arregloSeleccionadosCopias = seleccion.slice();
       const arregloPadres = []
 
       for (let a= 0; a < 2; a++) {
@@ -113,7 +49,7 @@ function reproduction(poblation,seleccion){
 
       let padre1 = false;
       for (let x = 0; x < poblation[i].length; x++) {
-        
+
         if(padre1){
           poblation[i][x] = arregloPadres[0][x];
           padre1 = false;
@@ -121,7 +57,7 @@ function reproduction(poblation,seleccion){
           poblation[i][x] = arregloPadres[1][x];
           padre1 = true;
         }
-        
+
       }
     }
 
@@ -130,14 +66,14 @@ function reproduction(poblation,seleccion){
 }
 
 function mutation(poblation){
-  
+
   const poblacionCopia = poblation.slice();
 
   for(let i = 0; i< poblation.length; i++){
 
     var numeroAleatorio = Math.floor(Math.random() * 100) + 1;
     if(numeroAleatorio<=mutatePercentage){
-      
+
       for(let p = 0; p< poblacionCopia[i].length; p++){
 
         let punto = poblacionCopia[i][p];
@@ -147,7 +83,7 @@ function mutation(poblation){
         poblacionCopia[i][p] = puntoNuevasCoordenadas;
 
       }
-          
+
     }maxPoints
     if(poblacionCopia[i].length <= maxPoints){
       const pointX =  Math.floor(Math.random() * (image_elem.width - 0 + 1)) + 0;
@@ -156,8 +92,8 @@ function mutation(poblation){
       //console.log(p1)
       poblacionCopia[i].push(p1);
     }
-    
-    
+
+
   }
   return poblacionCopia
 }
@@ -196,7 +132,7 @@ function aproximacionCoordenada(targetX,targetY) {
   for (let y = 0; y < binary.rows; y++) {
 
     for (let x = 0; x < binary.cols; x++) {
-      
+
       let pixelValue = binary.ucharPtr(y, x)[0];
       //console.log(pixelValue)
       if (pixelValue == 0) {
@@ -257,7 +193,7 @@ function startGeneticAlgorithm() {
 
     i++;
 
-    
+
 
     if (i < maxGeneration) {
       setTimeout(runIteration, 0);
@@ -298,10 +234,10 @@ function ordenamientoCoordenadas(coordenadas){
     const distanciaB = Math.sqrt(coordB.x * coordB.x + coordB.y * coordB.y);
     return distanciaA - distanciaB;
   }
-  
+
   // Ordenar el arreglo de coordenadas por cercanía
   coordenadas.sort(compararCercania);
-  
+
   return coordenadas;
 }
 
@@ -370,7 +306,7 @@ function setValues() {
   combinePercentage = parseInt(getSliderValue("sliderPercentIndividualsCombination"));
 
   //message to prevent using invalid percentage
-  if ((selectedPercentage + mutatePercentage + combinePercentage) > 100) { 
+  if ((selectedPercentage + mutatePercentage + combinePercentage) > 100) {
     alert("The percentages sum must be lower than 100%");
   } else {
     alert("Changes saved");
