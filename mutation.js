@@ -21,7 +21,6 @@ function mutation(poblation) {
 			const pointX = Math.floor(Math.random() * (image_elem.width - 0 + 1)) + 0;
 			const pointY = Math.floor(Math.random() * (image_elem.height - 0 + 1)) + 0;
 			const p1 = new cv.Point(pointX, pointY);
-			//console.log(p1)
 			poblacionCopia[i].push(p1);
 		}
 	}
@@ -50,7 +49,6 @@ function aproximacionCoordenada(targetX, targetY) {
 		for (let x = 0; x < binary.cols; x++) {
 
 			let pixelValue = binary.ucharPtr(y, x)[0];
-			//console.log(pixelValue)
 			if (pixelValue == 0) {
 				//super formula
 				let distance = Math.sqrt(Math.pow(x - targetX, 2) + Math.pow(y - targetY, 2));

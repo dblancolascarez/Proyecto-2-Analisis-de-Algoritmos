@@ -1,7 +1,3 @@
-//OpenCV image dependencies
-var OpenCV_module = {
-    // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-};
 let image_elem = document.getElementById('imageSrc'); //image element
 let input_elem = document.getElementById('fileInput'); //get input image
 input_elem.addEventListener('change', (e) => {
@@ -18,12 +14,13 @@ var selectedPercentage = 30;
 var mutatePercentage = 40;
 
 /**
- * Inicia el algoritmo genético, transforma las generaciones y las dibuja
+ * Inicia el algoritmo genético, crea la población, transforma las generaciones y las dibuja
  */
 function startGeneticAlgorithm() {
-  document.getElementById('totalTime').textContent = 'Total time: 0'; //label total time
-  document.getElementById('resultProcess').textContent = 'Processing image...'; //label resultProcess
-  document.getElementById('msg').textContent = ''; //label message
+  document.querySelector('#totalTime').innerText = 'Total time: 0'; //label total time
+  document.querySelector('#resultProcess').innerText = 'Processing image...'; //label resultProcess
+  document.querySelector('#msg').innerText = ''; //label message
+
   setValues(); //call the set values function to get the slider values
   var btnStart = document.getElementById("buttonStart"); //start algorith button
   btnStart.disabled = true; //disable start button after is clicked once to start
@@ -31,70 +28,61 @@ function startGeneticAlgorithm() {
   var startTimeTotal = new Date(); //total time timer
   var AverageTimeGen = 0; //variable to set average time per gen
 
-  let objetivo = cv.imread(image_elem);
-  let generaciones = [];
-  let poblacion = generatePoblation();
+  let target = cv.imread(image_elem);
+  let generations = [];
+  let poblation = generatePoblation();
   let i = 0;
 
   function runIteration() {
-    console.log("generation number:" + (i + 1)); //print gen number to console
     document.getElementById('currentGen').innerHTML = 'Generations: ' + (i+ 1); //get the currentGeneration label
     var startAverageTimeGen = performance.now(); //start running average time timer
 
-    const copiaPoblacion = JSON.parse(JSON.stringify(poblacion));
+    const copiaPoblacion = JSON.parse(JSON.stringify(poblation));
+    let seleccionados = selection(copiaPoblacion, target);
 
-    let seleccionados = selection(copiaPoblacion, objetivo);
-
-    const poblacionReproducida = reproduction(JSON.parse(JSON.stringify(poblacion)), seleccionados);
-    //console.log("reproducidos")
-    //console.log(poblacionReproducida)
-
+    const poblacionReproducida = reproduction(JSON.parse(JSON.stringify(poblation)), seleccionados);
     const poblacionMutacion = mutation(JSON.parse(JSON.stringify(poblacionReproducida)));
-    //console.log("poblacion mutada")
-    //console.log(poblacionMutacion)
 
-    generaciones.push(JSON.parse(JSON.stringify(poblacionMutacion)));
-    poblacion = JSON.parse(JSON.stringify(poblacionMutacion));
+    generations.push(JSON.parse(JSON.stringify(poblacionMutacion)));
+    poblation = JSON.parse(JSON.stringify(poblacionMutacion));
 
     var endAverageTimeGen = performance.now(); //end running average time timer
     AverageTimeGen += endAverageTimeGen - startAverageTimeGen; //get average time per generations
     document.getElementById("genTime").textContent = 'Average time per generation: ' + ((AverageTimeGen/maxGeneration)/ 1000).toFixed(2)+ ' seg'; //set value to label
 
     i++;
-
-
-
     if (i < maxGeneration) {
-      setTimeout(runIteration, 0);
+      runIteration();
     } else {
       var endTotalTime = new Date(); //end total time timer
       var totalTime = Math.floor((endTotalTime - startTimeTotal) / 1000); //get total time of the genetic algorithm
-      document.getElementById("totalTime").textContent = 'Total time: ' + totalTime + ' seg'; //set value to label
+      document.getElementById('totalTime').textContent = 'Total time: ' + totalTime + ' seg'; //set value to label
 
       document.getElementById('resultProcess').textContent = 'Showing result:'; //set resultProcess label output
-
-      setTimeout(() => {
-        console.log(generaciones);
-        mostrarGeneracion(generaciones);
-      }, 0);
+      mostrarGeneracion(generations);
     }
   }
-
   runIteration();
 }
-
 
 /**
  * Dibuja un individuo en el canvas
  */
-function mostrarIndividuo(individuo){
-  individuo = ordenamientoCoordenadas(individuo);
+function showIndividual(individual, index, container){
+  individual = ordenamientoCoordenadas(individual);
   let mat = new cv.Mat.zeros(image_elem.height, image_elem.width, cv.CV_8UC4);
 
-  for (let i = 0; i < individuo.length-1; i++) {
-    cv.line(mat, individuo[i], individuo[i+1], [0, 0, 0, 255], 1);
+  for (let i = 0; i < individual.length-1; i++) {
+    cv.line(mat, individual[i], individual[i+1], [0, 0, 0, 255], 1);
   }
-  cv.imshow('canvasSquare', mat);
+
+  // creamos canvas
+  const canvas = document.createElement("canvas");
+  const id = `individual-${index}`;
+  canvas.id = id;
+  container.appendChild(canvas);
+
+  cv.imshow(id, mat);
   mat.delete();
 }
 
@@ -120,25 +108,17 @@ function ordenamientoCoordenadas(coordenadas){
  * @param {{x: number, y: number}[]} generacion
  */
 function mostrarGeneracion(generacion) {
-  let tiempoEspera = 200;
-
   for (let g = 0; g < generacion.length; g++) {
-    setTimeout(() => {
       document.getElementById('currentGeneration').innerHTML = 'Current generation: ' + (g + 1);
-
+      const container = document.createElement("div");
+      container.className = "generation-container";
+      document.querySelector("#square").appendChild(container);
       for (let i = 0; i < generacion[g].length; i++) {
-        setTimeout(() => {
-          mostrarIndividuo(generacion[g][i]);
-        }, tiempoEspera * (i + 1));
+          showIndividual(generacion[g][i], g * generacion[g].length + i, container);
       }
-    }, tiempoEspera * (g + 1) * generacion[g].length);
   }
-
-  setTimeout(() => {
-    document.getElementById('msg').textContent = 'Algorithm finished';
-  }, tiempoEspera * generacion.length * generacion[generacion.length - 1].length + tiempoEspera);
+  document.getElementById('msg').textContent = 'Algorithm finished';
 }
-
 
 /**
  * Updates the text content of an element with the given value.
@@ -184,8 +164,6 @@ function setValues() {
   //message to prevent using invalid percentage
   if ((selectedPercentage + mutatePercentage + combinePercentage) > 100) {
     alert("The percentages sum must be lower than 100%");
-  } else {
-    alert("Changes saved");
   }
 }
 
