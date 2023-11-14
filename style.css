@@ -4,8 +4,9 @@ html{
     font-family: cursive;
     width: 1920px;
     height: 1080px;
-    overflow: hidden; /* To prevent scrolling */
+    overflow-x: hidden;
 }
+
 body {
     font-family: cursive;
     margin: 0;
@@ -16,7 +17,6 @@ body {
   background-attachment: fixed;
   width: 1920px;
     height: 1080px;
-    overflow: hidden; /* To prevent scrolling */
 }
 #header {
     text-align: center;
