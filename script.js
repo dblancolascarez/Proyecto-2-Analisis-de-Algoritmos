@@ -17,20 +17,9 @@ var combinePercentage = 30;
 var selectedPercentage = 30;
 var mutatePercentage = 40;
 
-
-function draw(){
-  let mat = new cv.Mat(image_elem.height, image_elem.width, cv.CV_8UC4);
-  console.log(mat.ucharPtr(100,100))
-  let p1 = new cv.Point(0, 0);
-  let p2 = new cv.Point(20, 82);
-
-  cv.line(mat, p1, p2, [0, 0, 0, 255], 5);
-
-  cv.imshow('canvasSquare', mat);
-
-  mat.delete();
-}
-
+/**
+ * Inicia el algoritmo genético, transforma las generaciones y las dibuja
+ */
 function startGeneticAlgorithm() {
   document.getElementById('totalTime').textContent = 'Total time: 0'; //label total time
   document.getElementById('resultProcess').textContent = 'Processing image...'; //label resultProcess
@@ -95,7 +84,9 @@ function startGeneticAlgorithm() {
 }
 
 
-
+/**
+ * Dibuja un individuo en el canvas
+ */
 function mostrarIndividuo(individuo){
   individuo = ordenamientoCoordenadas(individuo);
   let mat = new cv.Mat.zeros(image_elem.height, image_elem.width, cv.CV_8UC4);
@@ -106,21 +97,28 @@ function mostrarIndividuo(individuo){
   cv.imshow('canvasSquare', mat);
   mat.delete();
 }
-function ordenamientoCoordenadas(coordenadas){
 
+/**
+ * Devuelve las coordenadas de una línea ordenadas de menor a mayor
+ * @param {{x: number, y: number}[]} coordenadas
+ * @returns {{x: number, y: number}[]}
+ */
+function ordenamientoCoordenadas(coordenadas){
   // Función de comparación para ordenar las coordenadas por cercanía
   function compararCercania(coordA, coordB) {
     const distanciaA = Math.sqrt(coordA.x * coordA.x + coordA.y * coordA.y);
     const distanciaB = Math.sqrt(coordB.x * coordB.x + coordB.y * coordB.y);
     return distanciaA - distanciaB;
   }
-
   // Ordenar el arreglo de coordenadas por cercanía
   coordenadas.sort(compararCercania);
-
   return coordenadas;
 }
 
+/**
+ * Dibuja los indivudos de una generación en el canvas
+ * @param {{x: number, y: number}[]} generacion
+ */
 function mostrarGeneracion(generacion) {
   let tiempoEspera = 200;
 
@@ -140,8 +138,6 @@ function mostrarGeneracion(generacion) {
     document.getElementById('msg').textContent = 'Algorithm finished';
   }, tiempoEspera * generacion.length * generacion[generacion.length - 1].length + tiempoEspera);
 }
-
-
 
 
 /**
