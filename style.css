@@ -1,75 +1,64 @@
-html{
-    background-color: #1d615d;
+html {
+    background-color: #05353f;
     color: #ffffff;
     font-family: cursive;
-    width: 1920px;
-    height: 1080px;
     overflow-x: hidden;
+    height: 100vh;
 }
 
 body {
     font-family: cursive;
     margin: 0;
-  padding: 0;
-  background-image: url('img/bg3.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  width: 1920px;
-    height: 1080px;
+    padding: 0;
+    background-image: url('img/bg3.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
 }
-#header {
-    text-align: center;
-    padding: 10px;
 
+#header {
+    padding: 0 10px;
     font-size: 22px;
+}
+
+#header h1 {
+    margin: 0;
 }
 
 #content {
     display: flex;
 }
 
-#left, #center, #right {
+@media screen and (max-width: 700px) {
+    #content {
+        flex-direction: column;
+    }
+}
+
+#left,
+#center,
+#right {
     padding: 10px;
 }
 
-#left{
-    flex-basis: 23%;
+#left {
     font-size: 11px;
-    text-align: left;
 }
+
 #right {
-    position: absolute;
-    top: 120;
-    right: 0;
-    width: 23%;
     font-size: 13px;
     text-align: right;
 }
 
 #center {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: white;
 }
 
-#square{
-    background-color: white;
-    position: relative;
-    width: fit-content;
-    max-width: 100%;
-}
-
 canvas {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: white;
 }
 
-
-#msg{
+#msg {
     text-align: center;
 }
 
@@ -85,8 +74,7 @@ canvas {
     transition: opacity 0.2s;
 }
 
-.buttonClass{
-
+.buttonClass {
     padding: 10px 20px;
     font-size: 23px;
     background-color: #ddd;
@@ -96,7 +84,6 @@ canvas {
     cursor: pointer;
     transition: background-color 0.3s;
     font-family: 'Lato', sans-serif;
-
 }
 
 .buttonClass:hover {
@@ -104,7 +91,16 @@ canvas {
 }
 
 .bgImg {
-    background-image: url('img/bg3.png'); /* Replace 'path_to_your_image.jpg' with your image file's path */
-    background-size: cover; /* Adjusts the size of the background image */
+    background-image: url('img/bg3.png');
+    /* Replace 'path_to_your_image.jpg' with your image file's path */
+    background-size: cover;
+    /* Adjusts the size of the background image */
     /* You can add more background properties here like position, repeat, etc. */
-  }
+}
+
+.generation-container {
+    background-color: #6f8266;
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
