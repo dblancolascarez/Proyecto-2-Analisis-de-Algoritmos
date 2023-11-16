@@ -1,49 +1,49 @@
 /**
- * Devuelve una nueva población, algunos individuos tendrán puntos modificados, pero todos tendrán un nuevo punto
- * @param {*} poblation
- * @returns
+ * Returns a new population, some individuals will have modified points, but all will have a new point.
+ * @param {*} population
+ * @returns - a copy of the population
  */
-function mutation(poblation) {
-	const poblacionCopia = poblation.slice();
-	for (let i = 0; i < poblation.length; i++) {
-		// Hay una probabilidad de que un punto de un individuo cambie
-		var numeroAleatorio = Math.floor(Math.random() * 100) + 1;
-		if (numeroAleatorio <= mutatePercentage) {
-			for (let p = 0; p < poblacionCopia[i].length; p++) {
-				let punto = poblacionCopia[i][p];
-				const coordenadasMejoradas = aproximacionCoordenada(punto.x, punto.y);
-				const puntoNuevasCoordenadas = new cv.Point(coordenadasMejoradas.x, coordenadasMejoradas.y);
-				poblacionCopia[i][p] = puntoNuevasCoordenadas;
+function mutation(population) {
+	const copyPopulation = population.slice();
+	for (let i = 0; i < population.length; i++) {
+		// There is a probability that one point of an individual will change
+		var randomNumber = Math.floor(Math.random() * 100) + 1;
+		if (randomNumber <= mutatePercentage) {
+			for (let p = 0; p < copyPopulation[i].length; p++) {
+				let point = copyPopulation[i][p];
+				const improvedCoordinates = approximateCoordinate(point.x, point.y);
+				const newCoordinatesPoint = new cv.Point(improvedCoordinates.x, improvedCoordinates.y);
+				copyPopulation[i][p] = newCoordinatesPoint;
 			}
 		}
-		// Añade un punto a cada individuo de la población
-		if (poblacionCopia[i].length <= maxPoints) {
+		// Add one point to each individual in the population
+		if (copyPopulation[i].length <= maxPoints) {
 			const pointX = Math.floor(Math.random() * (image_elem.width - 0 + 1)) + 0;
 			const pointY = Math.floor(Math.random() * (image_elem.height - 0 + 1)) + 0;
 			const p1 = new cv.Point(pointX, pointY);
-			poblacionCopia[i].push(p1);
+			copyPopulation[i].push(p1);
 		}
 	}
-	return poblacionCopia
+	return copyPopulation
 }
 
 /**
- * Devuelve las coordenadas del punto más cercano del punto dado
+ * Returns the coordinates of the nearest point of the given point.
  * @param {number} targetX
  * @param {number} targetY
- * @returns {{x: number, y: number}}
+ * @returns {number} nearbyPoint
  */
-function aproximacionCoordenada(targetX, targetY) {
-	const objetivo = cv.imread(image_elem);
+function approximateCoordinate(targetX, targetY) {
+	const target = cv.imread(image_elem);
 
 	let gray = new cv.Mat();
-	cv.cvtColor(objetivo, gray, cv.COLOR_RGBA2GRAY);
+	cv.cvtColor(target, gray, cv.COLOR_RGBA2GRAY);
 
 	let binary = new cv.Mat();
 	cv.threshold(gray, binary, 0, 255, cv.THRESH_BINARY_INV | cv.THRESH_OTSU);
 
 	let minDistance = Infinity;
-	let puntoCercano = null;
+	let nearbyPoint = null;
 	for (let y = 0; y < binary.rows; y++) {
 
 		for (let x = 0; x < binary.cols; x++) {
@@ -55,10 +55,10 @@ function aproximacionCoordenada(targetX, targetY) {
 
 				if (distance < minDistance) {
 					minDistance = distance;
-					puntoCercano = { x, y };
+					nearbyPoint = { x, y };
 				}
 			}
 		}
 	}
-	return puntoCercano;
+	return nearbyPoint;
 }

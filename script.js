@@ -1,5 +1,7 @@
 let image_elem = document.getElementById('imageSrc'); //image element
 let input_elem = document.getElementById('fileInput'); //get input image
+
+
 input_elem.addEventListener('change', (e) => {
       image_elem.src = URL.createObjectURL(e.target.files[0]);
 }, false);
@@ -14,7 +16,7 @@ var selectedPercentage = 30;
 var mutatePercentage = 40;
 
 /**
- * Inicia el algoritmo genético, crea la población, transforma las generaciones y las dibuja
+ * Starts the genetic algorithm, creates the population, transforms the generations and draws them
  */
 function startGeneticAlgorithm() {
   document.querySelector('#totalTime').innerText = 'Total time: 0'; //label total time
@@ -30,21 +32,21 @@ function startGeneticAlgorithm() {
 
   let target = cv.imread(image_elem);
   let generations = [];
-  let poblation = generatePoblation();
+  let population = generatePopulation();
   let i = 0;
 
   function runIteration() {
     document.getElementById('currentGen').innerHTML = 'Generations: ' + (i+ 1); //get the currentGeneration label
     var startAverageTimeGen = performance.now(); //start running average time timer
 
-    const copiaPoblacion = JSON.parse(JSON.stringify(poblation));
-    let seleccionados = selection(copiaPoblacion, target);
+    const copyPoblacion = JSON.parse(JSON.stringify(population));
+    let selected = selection(copyPoblacion, target);
 
-    const poblacionReproducida = reproduction(JSON.parse(JSON.stringify(poblation)), seleccionados);
-    const poblacionMutacion = mutation(JSON.parse(JSON.stringify(poblacionReproducida)));
+    const populationReproduced = reproduction(JSON.parse(JSON.stringify(population)), selected);
+    const populationMutation = mutation(JSON.parse(JSON.stringify(populationReproduced)));
 
-    generations.push(JSON.parse(JSON.stringify(poblacionMutacion)));
-    poblation = JSON.parse(JSON.stringify(poblacionMutacion));
+    generations.push(JSON.parse(JSON.stringify(populationMutation)));
+    population = JSON.parse(JSON.stringify(populationMutation));
 
     var endAverageTimeGen = performance.now(); //end running average time timer
     AverageTimeGen += endAverageTimeGen - startAverageTimeGen; //get average time per generations
@@ -59,24 +61,27 @@ function startGeneticAlgorithm() {
       document.getElementById('totalTime').textContent = 'Total time: ' + totalTime + ' seg'; //set value to label
 
       document.getElementById('resultProcess').textContent = 'Showing result:'; //set resultProcess label output
-      mostrarGeneracion(generations);
+      showGeneration(generations);
     }
   }
   runIteration();
 }
 
 /**
- * Dibuja un individuo en el canvas
+ * Draws an individual on the canvas.
+ * @param {Array<cv.Point>} individual - The individual to be drawn.
+ * @param {number} index - The index of the individual.
+ * @param {HTMLElement} container - The HTML container to append the canvas.
  */
 function showIndividual(individual, index, container){
-  individual = ordenamientoCoordenadas(individual);
+  individual = sortingCoordinates(individual);
   let mat = new cv.Mat.zeros(image_elem.height, image_elem.width, cv.CV_8UC4);
 
   for (let i = 0; i < individual.length-1; i++) {
     cv.line(mat, individual[i], individual[i+1], [0, 0, 0, 255], 1);
   }
 
-  // creamos canvas
+  // We create canvas
   const canvas = document.createElement("canvas");
   const id = `individual-${index}`;
   canvas.id = id;
@@ -87,34 +92,34 @@ function showIndividual(individual, index, container){
 }
 
 /**
- * Devuelve las coordenadas de una línea ordenadas de menor a mayor
- * @param {{x: number, y: number}[]} coordenadas
- * @returns {{x: number, y: number}[]}
+ * Returns the coordinates of a line sorted from smallest to largest.
+ * @param {number} coordinates
+ * @returns {number} consists of coordinates (x,y)
  */
-function ordenamientoCoordenadas(coordenadas){
-  // Función de comparación para ordenar las coordenadas por cercanía
-  function compararCercania(coordA, coordB) {
-    const distanciaA = Math.sqrt(coordA.x * coordA.x + coordA.y * coordA.y);
-    const distanciaB = Math.sqrt(coordB.x * coordB.x + coordB.y * coordB.y);
-    return distanciaA - distanciaB;
+function sortingCoordinates(coordinates){
+  // Comparison function to sort coordinates by proximity
+  function compareProximity(coordA, coordB) {
+    const distanceA = Math.sqrt(coordA.x * coordA.x + coordA.y * coordA.y);
+    const distanceB = Math.sqrt(coordB.x * coordB.x + coordB.y * coordB.y);
+    return distanceA - distanceB;
   }
-  // Ordenar el arreglo de coordenadas por cercanía
-  coordenadas.sort(compararCercania);
-  return coordenadas;
+  // Sort coordinate array by proximity
+  coordinates.sort(compareProximity);
+  return coordinates;
 }
 
 /**
- * Dibuja los indivudos de una generación en el canvas
- * @param {{x: number, y: number}[]} generacion
+ * Draw the individuals of a generation on the canvas
+ * @param {number} generation of format (x,y)
  */
-function mostrarGeneracion(generacion) {
-  for (let g = 0; g < generacion.length; g++) {
+function showGeneration(generation) {
+  for (let g = 0; g < generation.length; g++) {
       document.getElementById('currentGeneration').innerHTML = 'Current generation: ' + (g + 1);
       const container = document.createElement("div");
       container.className = "generation-container";
       document.querySelector("#square").appendChild(container);
-      for (let i = 0; i < generacion[g].length; i++) {
-          showIndividual(generacion[g][i], g * generacion[g].length + i, container);
+      for (let i = 0; i < generation[g].length; i++) {
+          showIndividual(generation[g][i], g * generation[g].length + i, container);
       }
   }
   document.getElementById('msg').textContent = 'Algorithm finished';
