@@ -1,5 +1,10 @@
 let image_elem = document.getElementById('imageSrc'); //image element
 let input_elem = document.getElementById('fileInput'); //get input image
+
+/**
+ * Updates the source of the image element when a new image is selected using the input element.
+ * @param {Event} e - The change event object from the input element.
+ */
 input_elem.addEventListener('change', (e) => {
       image_elem.src = URL.createObjectURL(e.target.files[0]);
 }, false);
@@ -66,7 +71,10 @@ function startGeneticAlgorithm() {
 }
 
 /**
- * Draws an individual on the canvas
+ * Draws an individual on the canvas.
+ * @param {Array<cv.Point>} individual - The individual to be drawn.
+ * @param {number} index - The index of the individual.
+ * @param {HTMLElement} container - The HTML container to append the canvas.
  */
 function showIndividual(individual, index, container){
   individual = sortingCoordinates(individual);
