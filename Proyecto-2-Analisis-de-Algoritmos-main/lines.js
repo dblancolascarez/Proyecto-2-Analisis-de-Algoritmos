@@ -31,7 +31,13 @@ const getLines = (imgElement, onLineFinding) => {
 		onLineFinding(groupLines(arrayLines));
 	}
 }
-
+/**
+ * Groups the aforementioned lines into an array 
+ * formulates the lines with starting and finishing points and
+ * groups them if they are in range 
+ * @param {*} arrayLines 
+ * @returns - a map of grouped lines 
+ */
 const groupLines = arrayLines => {
 	const groupedLines = [];
 	let grouped = false;
@@ -57,6 +63,12 @@ const groupLines = arrayLines => {
 	}));
 }
 
+/**
+ * Checks if a number is within a 100 of the number and base number provided
+ * @param {number} number 
+ * @param {number} baseNumber 
+ * @returns {boolean} - boolean, true if the number is within range, false if not
+ */
 const inRange = (number, baseNumber) => {
     return number > baseNumber - 100 && number < baseNumber + 100;
 }
